@@ -29,6 +29,6 @@ module.exports = {
     ],
   },
   performance: {
-    hints: false,
+    hints: false, // Suppress warnings about asset size limits
   },
 };
