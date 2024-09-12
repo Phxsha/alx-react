@@ -1,15 +1,24 @@
-import { fromJS, Seq } from 'immutable';
+import { Seq } from 'immutable';
 
-// Function to print best students with score >= 70
-export default function printBestStudents(grades) {
-  const students = fromJS(grades);
+export default function printBestStudents(object) {
+  const seq = Seq(object);
 
-  // Use `seq` to create a sequence and filter students based on score
-  students
-    .filter(student => student.get('score') >= 70)
-    .forEach(student => {
-      const firstName = student.get('firstName').capitalize();
-      const lastName = student.get('lastName').capitalize();
-      console.log(`${firstName} ${lastName}`);
-    });
+  const filtered = seq.filter((student) => {
+    student.firstName.charAt(0).toUpperCase();
+    return student.score > 70;
+  });
+
+  function capFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+  const JSObject = filtered.toJS();
+
+  Object.keys(JSObject).map((key) => {
+    JSObject[key].firstName = capFirstLetter(JSObject[key].firstName);
+    JSObject[key].lastName = capFirstLetter(JSObject[key].lastName);
+    return JSObject[key];
+  });
+
+  console.log(JSObject);
 }
